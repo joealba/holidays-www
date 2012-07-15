@@ -5,12 +5,14 @@ require 'chronic'
 
 Holidays.load_all
 
-get '/' do  
+get '/' do
   if params[:date]
     date = Chronic.parse(params[:date])
-  else
-    date = Date.today
+    if !date
+      @error = "Sorry, I could not parse the date you entered."
+    end
   end
+  date ||= Date.today
 
   @when = date.strftime('%B %-d, %Y')
   @holidays = Holidays.on(date, :any)

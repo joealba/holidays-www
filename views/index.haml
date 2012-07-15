@@ -2,28 +2,49 @@
 %html
   %head
     %title Ruby Holidays Gem
+    %link{:rel => 'stylesheet', :href => '/css/bootstrap.css', :type => "text/css"}
+    %link{:rel => 'stylesheet', :href => '/css/bootstrap-responsive.css', :type => "text/css"}
   %body
-  
-    %h1= "What Holidays Are Happening #{@when}?"
-    
-    - if @holidays.length > 0
-      %ul
-        - @holidays.each do |h|
-          %li
-            = h[:name]
-            in
-            = h[:regions]
-    - else
-      %strong None (that we know of).  How sad.
+    %div.navbar.navbar-fixed-top
+      %div.navbar-inner
+        %div.container
+          %a.brand{:href => 'http://rubygems.org/gems/holidays'} Ruby Holidays Gem
+          %ul.nav
+            %li
+              %a{:href => 'http://rubygems.org/gems/holidays'} Rubygems
+            %li
+              %a{:href => 'https://github.com/alexdunae/holidays'} Github
+    %div.container
+      %div.hero-unit{:style => 'padding: 3em;'}
+        %h2= "What Holidays Are Happening #{@when}?"
 
-    %form{:method => 'get'}
-      %label Try another date? Type it and hit Enter.
-      %br
-      %input{:type => 'date'}
-      
-  %p
-    %small
-      What is this?  A super slim interface on the 
-      %a{:href => 'https://github.com/alexdunae/holidays'} Ruby Holidays gem.
-      Can you make it prettier?
-      %a{:href => 'https://github.com/alexdunae/holidays-www'} Grab the code and make it better.
+        %ul.holidays{:style => 'font-size: 1.4em; margin-top: 1em;'}
+          - if @holidays.length > 0
+            - @holidays.each do |h|
+              %li.holiday
+                = h[:name]
+                in
+                = h[:regions]
+          - else
+            %li.no-holidays None (that we know of).  How sad.
+
+      %form.form-horizontal{:method => 'get'}
+        -if @error
+          %div.alert.alert-error
+            =@error
+        %fieldset
+          %legend Try another date
+          %p{:style => "padding: 1em 0;"}
+            %input.date{:type => 'text', :name => 'date', :id => 'date', :style => 'margin: 0;'}
+            %button.btn{:type => 'submit'} Go
+            %span.help-block
+              Enter a date in any format the 
+              %a{:href => 'https://github.com/mojombo/chronic/'} Chronic
+              gem can parse. Examples: "12/25/2012", "July 4th", "Next Monday", "3rd Thursday this September"
+    %footer
+      %div.container
+        %small
+          What is this?  A super slim interface on the 
+          %a{:href => 'https://github.com/alexdunae/holidays'} Ruby Holidays gem.
+          Can you make it prettier?
+          %a{:href => 'https://github.com/alexdunae/holidays-www'} Grab the code and make it better.
